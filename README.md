@@ -51,6 +51,7 @@ Para actualizar el firmware del ESP32:
 
 1. Asegúrese de que el archivo de firmware se llame `update.bin` y súbalo a la tarjeta SD.
 2. El sistema buscará automáticamente el archivo `update.bin` al iniciar y procederá con la actualización si se encuentra el archivo.
+3. El uso de este sistema es muy similar al ejemplo de webserver SD de la libreria del esp32 pero con el apartado de actualizacion de firmware
 
 ## Ejemplos de Uso
 
