@@ -40,6 +40,7 @@
   - The system automatically checks for an 'update.bin' file on the SD card during startup and initiates the update process if found.
 */
 
+
 #include <WiFi.h>
 #include <WebServer.h>
 #include <U8g2lib.h>
@@ -557,19 +558,26 @@ void loop(void) {
     deactivateSystemFlag = false;
   }
 
+  if (systemActive) {
+    server.handleClient();
+    u8g2.clearBuffer();
+    u8g2.setFont(u8g2_font_ncenB08_tr);
+    u8g2.drawStr(0, 10, "System Activated");
+    u8g2.drawStr(0, 30, ("" + ssid).c_str());
+    u8g2.drawStr(0, 50, ("IP: " + myIPG).c_str());
+    u8g2.drawStr(0, 70, ("PASS: " + password).c_str());
+    u8g2.drawStr(0, 85, (ver).c_str());
+    if (clientConnected) {
+      u8g2.drawStr(0, 110, "Client Connected");
+    } else {
+      u8g2.drawStr(0, 110, "No Client Connected");
+    }
+    u8g2.sendBuffer();
+  } else {
+    clientConnected = false;
+  }
+
+
   // Verifica si hay algún cliente conectado
   clientConnected = (WiFi.softAPgetStationNum() > 0);
-  u8g2.clearBuffer();
-  u8g2.setFont(u8g2_font_ncenB08_tr);
-  u8g2.drawStr(0, 10, "System Activated");
-  u8g2.drawStr(0, 30, ("SSID: " + ssid).c_str());
-  u8g2.drawStr(0, 50, ("IP: " + myIPG).c_str());
-  u8g2.drawStr(0, 70, ("PASS: " + password).c_str());
-  u8g2.drawStr(0, 85, (ver).c_str());
-  if (clientConnected) {
-    u8g2.drawStr(0, 100, "Client Connected");
-  } else {
-    u8g2.drawStr(0, 100, "No Client Connected");
-  }
-  u8g2.sendBuffer();
 }
